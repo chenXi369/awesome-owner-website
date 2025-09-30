@@ -8,14 +8,20 @@
       <audio :href="musicSrc" :src="musicSrc" autoplay controls></audio>
     </div>
     <div class="flex">
-      <Spline :scene="sceneUrl" class="mt-24 size-full" />
+      <SplineViewer :scene="sceneUrl" class="mt-24 size-full" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Spline from './components/Spline.vue'
+// 更新导入的组件名
+import SplineViewer from './components/SplineViewer.vue'
+
+// 添加组件名称
+defineOptions({
+  name: 'HomeView',
+})
 
 const sceneUrl = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
 const musicSrc = ref('./blog-bg.mp3')

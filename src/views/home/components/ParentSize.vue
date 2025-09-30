@@ -13,7 +13,14 @@
 <script setup lang="ts">
 import { ref, reactive, computed, useAttrs } from 'vue'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
-import { cn } from '@/lib/utils'
+
+// 使用 defineOptions 设置组件名称
+defineOptions({
+  name: 'ParentSize',
+})
+
+// 修复 utils 导入路径
+import { cn } from '../../../lib/utils'
 
 const props = defineProps({
   class: String,
@@ -46,10 +53,14 @@ const mergedStyles = computed(() => ({
   ...(attrs.style as object),
 }))
 
-const mergedClass = computed(() => ['w-full h-full', props.class])
-
 const attrsWithoutClassAndStyle = computed(() => {
-  const { class: _, style: __, ...rest } = attrs
+  // 创建一个新对象，排除 class 和 style 属性
+  const rest: Record<string, unknown> = {}
+  for (const key in attrs) {
+    if (key !== 'class' && key !== 'style') {
+      rest[key] = attrs[key]
+    }
+  }
   return rest
 })
 

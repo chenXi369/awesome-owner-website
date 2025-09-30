@@ -15,6 +15,11 @@ import { Application, type SplineEventName } from '@splinetool/runtime'
 import { useDebounceFn, useIntersectionObserver } from '@vueuse/core'
 import ParentSize from './ParentSize.vue'
 
+// 将组件名称改为多单词形式
+defineOptions({
+  name: 'SplineViewer',
+})
+
 const props = defineProps({
   scene: {
     type: String,
@@ -62,16 +67,20 @@ const canvasStyle = computed(() => ({
 // Use IntersectionObserver to detect when component is visible
 const { stop: stopIntersectionObserver } = useIntersectionObserver(
   canvasRef,
-  ([{ isIntersecting }]) => {
-    isVisible.value = isIntersecting
-    if (isIntersecting && splineApp.value) {
-      // When becoming visible again, force a resize
-      nextTick(() => {
-        if (canvasRef.value && splineApp.value) {
-          splineApp.value.requestRender()
-          splineApp.value.setSize(canvasRef.value.clientWidth, canvasRef.value.clientHeight)
-        }
-      })
+  // 修复类型问题
+  (entries) => {
+    const entry = entries[0]
+    if (entry) {
+      isVisible.value = entry.isIntersecting
+      if (entry.isIntersecting && splineApp.value) {
+        // When becoming visible again, force a resize
+        nextTick(() => {
+          if (canvasRef.value && splineApp.value) {
+            splineApp.value.requestRender()
+            splineApp.value.setSize(canvasRef.value.clientWidth, canvasRef.value.clientHeight)
+          }
+        })
+      }
     }
   },
   { threshold: 0.1 },
