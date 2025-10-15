@@ -1,11 +1,6 @@
 <!-- ParentSize.vue -->
 <template>
-  <div
-    ref="target"
-    :style="mergedStyles"
-    :class="cn('w-full h-full', props.class)"
-    v-bind="attrsWithoutClassAndStyle"
-  >
+  <div ref="target" :style="mergedStyles" :class="cn('w-full h-full', props.class)" v-bind="attrsWithoutClassAndStyle">
     <slot />
   </div>
 </template>
