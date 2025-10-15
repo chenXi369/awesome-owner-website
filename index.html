@@ -1,19 +1,26 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="zh-CN">
 
 <head>
   <meta charset="UTF-8">
   <link rel="icon" href="/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="辰辰的个人网站 - 展示创意与技术的融合">
+  <meta name="keywords" content="个人网站, 3D动画, Spline, Vue, Vuetify">
   <title>辰のblog</title>
+
+  <!-- 预连接外部资源以提高加载性能 -->
+  <link rel="preconnect" href="https://prod.spline.design">
+  <link rel="preconnect" href="https://picsum.photos">
+
+  <!-- DNS预解析 -->
+  <link rel="dns-prefetch" href="https://prod.spline.design">
+  <link rel="dns-prefetch" href="https://picsum.photos">
 </head>
 
 <body>
   <div id="app"></div>
-  <audio id="background-music" autoplay loop>
-    <source src="./public/blog-bg.mp3" type="audio/mpeg">
-    你的浏览器不支持 audio 元素。
-  </audio>
+  <!-- 移除音频元素，避免自动播放问题 -->
   <script type="module" src="/src/main.ts"></script>
 </body>
 

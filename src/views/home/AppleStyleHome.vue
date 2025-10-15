@@ -93,11 +93,11 @@
           <h2 class="section-title">联系我</h2>
           <p class="section-description">期待与您的合作</p>
         </div>
-        
+
         <v-container>
           <v-row justify="center">
             <v-col cols="12" md="6" class="text-center">
-              <ContactDialog />
+              <ContactDialog v-if="showContactDialog" />
             </v-col>
           </v-row>
         </v-container>
@@ -107,9 +107,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-// 保持现有的导入方式，Vue 3 script setup 会自动处理组件导出
-import SplineView from './components/SplineView.vue'
+import { ref, onMounted, defineAsyncComponent } from 'vue'
+
+// 动态导入组件
+const SplineView = defineAsyncComponent(() => import('./components/SplineView.vue'))
+const ContactDialog = defineAsyncComponent(() => import('./components/ContactDialog.vue'))
 
 defineOptions({
   name: 'AppleStyleHome',
@@ -117,6 +119,7 @@ defineOptions({
 
 const sceneUrl = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
 const featuresSection = ref(null)
+const showContactDialog = ref(true)
 
 // 作品数据
 const portfolioItems = ref([
@@ -146,11 +149,6 @@ const scrollToFeatures = () => {
       behavior: 'smooth'
     })
   }
-}
-
-const submitForm = () => {
-  // 表单提交逻辑
-  console.log('表单已提交')
 }
 
 onMounted(() => {
