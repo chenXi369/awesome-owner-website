@@ -52,6 +52,8 @@ jobs:
           find ./dist -type d
           echo "Checking for index.html:"
           find ./dist -name "index.html" -type f
+          echo "Checking for assets directory:"
+          find ./dist -name "assets" -type d
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
