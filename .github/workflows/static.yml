@@ -44,6 +44,15 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: List dist contents
+        run: |
+          echo "Listing dist directory contents:"
+          ls -la ./dist
+          echo "Listing dist subdirectories:"
+          find ./dist -type d
+          echo "Checking for index.html:"
+          find ./dist -name "index.html" -type f
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -13,4 +13,11 @@ const router = createRouter({
   routes,
 })
 
+// 添加全局前置守卫，用于调试路由
+router.beforeEach((to, from, next) => {
+  console.log('Routing to:', to.path)
+  console.log('Base URL:', import.meta.env.BASE_URL)
+  next()
+})
+
 export default router
