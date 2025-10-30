@@ -50,8 +50,10 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist directory
-          path: './dist'
+          # 部署到 gh-pages 分支
+          target_branch: gh-pages
+          # 部署目录为Vite项目的默认输出目录
+          build_dir: ./dist
 
       - name: Deploy to GitHub Pages
         id: deployment
