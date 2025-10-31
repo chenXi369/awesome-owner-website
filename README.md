@@ -61,7 +61,7 @@ npm run lint
    - 每次推送到 main 分支时，GitHub Actions 会自动构建并部署
 
 3. **访问网站**
-   - 部署完成后，网站将可通过 `https://[你的用户名].github.io/website-owner-website/` 访问
+   - 部署完成后，网站将可通过 `https://[你的用户名].github.io/website-owner/` 访问
 
 ### 手动触发部署：
 
