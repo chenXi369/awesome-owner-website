@@ -46,3 +46,23 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## GitHub Pages 部署
+
+项目已配置 GitHub Actions 自动部署到 GitHub Pages。
+
+### 设置步骤：
+
+1. **在 GitHub 仓库设置中启用 Pages**
+   - 进入仓库的 Settings → Pages
+   - Source 选择 "GitHub Actions"
+
+2. **推送代码到 main 分支**
+   - 每次推送到 main 分支时，GitHub Actions 会自动构建并部署
+
+3. **访问网站**
+   - 部署完成后，网站将可通过 `https://[你的用户名].github.io/website-owner-website/` 访问
+
+### 手动触发部署：
+
+在 GitHub 仓库的 Actions 标签页中，可以手动运行 "Deploy to GitHub Pages" workflow。
