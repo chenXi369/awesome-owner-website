@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 // 更新导入的组件名
 import SplineView from './components/SplineView.vue'
 
