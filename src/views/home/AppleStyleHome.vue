@@ -7,13 +7,31 @@
 
     <!-- 内容区域 -->
     <div class="content-wrapper">
+      <!-- 用户导航栏 -->
+      <nav class="user-navbar">
+        <div class="nav-content">
+          <div class="nav-brand">
+            <h2 class="brand-title">辰辰</h2>
+          </div>
+          <div class="nav-actions">
+            <UserNav />
+          </div>
+        </div>
+      </nav>
+
       <!-- 主标题区域 -->
       <section class="hero-section animate-on-scroll">
         <div class="hero-content">
           <h1 class="main-title">辰辰</h1>
           <p class="subtitle">Build spline animations with style.</p>
           <div class="cta-buttons">
-            <v-btn variant="outlined" color="white" size="large" class="cta-button" @click="scrollToFeatures">
+            <v-btn
+              variant="outlined"
+              color="white"
+              size="large"
+              class="cta-button"
+              @click="scrollToFeatures"
+            >
               探索更多
             </v-btn>
           </div>
@@ -77,9 +95,7 @@
                 <v-card-title>{{ item.title }}</v-card-title>
                 <v-card-subtitle>{{ item.description }}</v-card-subtitle>
                 <v-card-actions>
-                  <v-btn color="primary" variant="text">
-                    查看详情
-                  </v-btn>
+                  <v-btn color="primary" variant="text"> 查看详情 </v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -108,6 +124,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent } from 'vue'
+import UserNav from '@/components/UserNav.vue'
 
 // 动态导入组件
 const SplineView = defineAsyncComponent(() => import('./components/SplineView.vue'))
@@ -127,26 +144,26 @@ const portfolioItems = ref([
     id: 1,
     title: '3D 动画项目',
     description: '基于 Spline 的交互式 3D 场景',
-    image: 'https://picsum.photos/seed/p1/400/200'
+    image: 'https://picsum.photos/seed/p1/400/200',
   },
   {
     id: 2,
     title: 'UI 设计作品',
     description: '现代化界面设计案例',
-    image: 'https://picsum.photos/seed/p2/400/200'
+    image: 'https://picsum.photos/seed/p2/400/200',
   },
   {
     id: 3,
     title: '动态网站',
     description: '融合动画效果的响应式网站',
-    image: 'https://picsum.photos/seed/p3/400/200'
-  }
+    image: 'https://picsum.photos/seed/p3/400/200',
+  },
 ])
 
 const scrollToFeatures = () => {
   if (featuresSection.value) {
-    (featuresSection.value as HTMLElement).scrollIntoView({
-      behavior: 'smooth'
+    ;(featuresSection.value as HTMLElement).scrollIntoView({
+      behavior: 'smooth',
     })
   }
 }
@@ -158,18 +175,21 @@ onMounted(() => {
 
 const initScrollAnimations = () => {
   // 滚动触发动画
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animate-in')
-      }
-    })
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-  })
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in')
+        }
+      })
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px',
+    },
+  )
 
-  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+  document.querySelectorAll('.animate-on-scroll').forEach((el) => {
     observer.observe(el)
   })
 }
@@ -201,6 +221,70 @@ const initScrollAnimations = () => {
   position: relative;
   z-index: 1;
   background: transparent !important;
+}
+
+.user-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.brand-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.user-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.brand-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
 }
 
 .hero-section {
@@ -282,7 +366,9 @@ const initScrollAnimations = () => {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);

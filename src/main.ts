@@ -4,7 +4,6 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import './lib/main.css'
-
 // Vuetify
 import vuetify from './plugins/vuetify'
 
