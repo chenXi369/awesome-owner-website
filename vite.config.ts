@@ -46,8 +46,7 @@ export default defineConfig({
           vue: ['vue', 'vue-router', 'pinia'],
           // 将 Spline 相关库打包到一个 chunk
           spline: ['@splinetool/runtime'],
-          // 将 Material Design Icons 打包到一个 chunk
-          mdi: ['@mdi/font/css/materialdesignicons.css'],
+          // 其他库可在此自定义拆分
         },
       },
     },
@@ -61,7 +60,5 @@ export default defineConfig({
   // 预加载优化
   optimizeDeps: {
     include: ['vue', 'vue-router', 'pinia', '@vueuse/core', '@splinetool/runtime'],
-    // 排除某些依赖以避免重复打包
-    exclude: ['@mdi/font'],
   },
 })
