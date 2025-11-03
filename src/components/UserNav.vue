@@ -1,5 +1,5 @@
 <template>
-  <div v-if="false" class="user-nav">
+  <!-- <div v-if="false" class="user-nav">
     <v-menu location="bottom end">
       <template v-slot:activator="{ props }">
         <v-btn variant="text" class="user-btn" v-bind="props">
@@ -26,22 +26,22 @@
         </v-list-item>
       </v-list>
     </v-menu>
-  </div>
+  </div> -->
 
-  <div v-else class="auth-buttons">
+  <div class="auth-buttons">
     <v-btn variant="text" color="primary" to="/auth/login" class="mr-2"> 登录 </v-btn>
     <v-btn variant="outlined" color="primary" to="/auth/register"> 注册 </v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
-const router = useRouter()
+// const router = useRouter()
 
-const handleLogout = () => {
-  router.push('/auth/login')
-}
+// const handleLogout = () => {
+//   router.push('/auth/login')
+// }
 </script>
 
 <style scoped>
