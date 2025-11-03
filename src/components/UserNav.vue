@@ -29,19 +29,18 @@
   </div> -->
 
   <div class="auth-buttons">
-    <v-btn variant="text" color="primary" to="/auth/login" class="mr-2"> 登录 </v-btn>
-    <v-btn variant="outlined" color="primary" to="/auth/register"> 注册 </v-btn>
+    <RouterLink
+      to="/auth/login"
+      class="mr-2 btn bg-foreground text-background hover:bg-foreground/90"
+    >
+      登录
+    </RouterLink>
+    <RouterLink to="/auth/register" class="btn btn-primary"> 注册 </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
-// import { useRouter } from 'vue-router'
-
-// const router = useRouter()
-
-// const handleLogout = () => {
-//   router.push('/auth/login')
-// }
+import { RouterLink } from 'vue-router'
 </script>
 
 <style scoped>

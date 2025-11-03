@@ -25,15 +25,12 @@
           <h1 class="main-title">辰辰</h1>
           <p class="subtitle">Build spline animations with style.</p>
           <div class="cta-buttons">
-            <v-btn
-              variant="outlined"
-              color="white"
-              size="large"
-              class="cta-button"
+            <button
+              class="cta-button inline-flex items-center justify-center whitespace-nowrap rounded-full border border-border bg-transparent px-6 py-3 text-base font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               @click="scrollToFeatures"
             >
               探索更多
-            </v-btn>
+            </button>
           </div>
         </div>
       </section>
@@ -45,39 +42,31 @@
           <p class="section-description">体验前所未有的视觉享受</p>
         </div>
 
-        <v-container>
-          <v-row>
-            <v-col cols="12" md="4">
-              <div class="feature-card">
-                <div class="feature-icon">
-                  <v-icon size="x-large" color="white">mdi-animation</v-icon>
-                </div>
-                <h3 class="feature-title">流畅动画</h3>
-                <p class="feature-description">基于 Spline 的高性能 3D 动画引擎</p>
-              </div>
-            </v-col>
+        <div class="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-3">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <span class="inline-block h-10 w-10 rounded-full bg-white/20" />
+            </div>
+            <h3 class="feature-title">流畅动画</h3>
+            <p class="feature-description">基于 Spline 的高性能 3D 动画引擎</p>
+          </div>
 
-            <v-col cols="12" md="4">
-              <div class="feature-card">
-                <div class="feature-icon">
-                  <v-icon size="x-large" color="white">mdi-palette</v-icon>
-                </div>
-                <h3 class="feature-title">精美设计</h3>
-                <p class="feature-description">遵循现代设计语言，细节精致</p>
-              </div>
-            </v-col>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <span class="inline-block h-10 w-10 rounded-full bg-white/20" />
+            </div>
+            <h3 class="feature-title">精美设计</h3>
+            <p class="feature-description">遵循现代设计语言，细节精致</p>
+          </div>
 
-            <v-col cols="12" md="4">
-              <div class="feature-card">
-                <div class="feature-icon">
-                  <v-icon size="x-large" color="white">mdi-responsive</v-icon>
-                </div>
-                <h3 class="feature-title">响应式布局</h3>
-                <p class="feature-description">适配各种设备，完美呈现</p>
-              </div>
-            </v-col>
-          </v-row>
-        </v-container>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <span class="inline-block h-10 w-10 rounded-full bg-white/20" />
+            </div>
+            <h3 class="feature-title">响应式布局</h3>
+            <p class="feature-description">适配各种设备，完美呈现</p>
+          </div>
+        </div>
       </section>
 
       <!-- 作品展示区域 -->
@@ -87,20 +76,18 @@
           <p class="section-description">探索我的创意世界</p>
         </div>
 
-        <v-container>
-          <v-row>
-            <v-col cols="12" md="6" lg="4" v-for="item in portfolioItems" :key="item.id">
-              <v-card class="portfolio-card" elevation="8">
-                <v-img :src="item.image" height="200" cover></v-img>
-                <v-card-title>{{ item.title }}</v-card-title>
-                <v-card-subtitle>{{ item.description }}</v-card-subtitle>
-                <v-card-actions>
-                  <v-btn color="primary" variant="text"> 查看详情 </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
+        <div class="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div v-for="item in portfolioItems" :key="item.id" class="portfolio-card">
+            <img :src="item.image" alt="" class="h-[200px] w-full object-cover" />
+            <div class="p-4">
+              <div class="mb-1 text-lg font-semibold">{{ item.title }}</div>
+              <div class="mb-3 text-sm opacity-80">{{ item.description }}</div>
+              <div class="flex justify-end">
+                <button class="text-sm text-primary hover:underline">查看详情</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- 联系方式区域 -->
@@ -110,13 +97,9 @@
           <p class="section-description">期待与您的合作</p>
         </div>
 
-        <v-container>
-          <v-row justify="center">
-            <v-col cols="12" md="6" class="text-center">
-              <ContactDialog v-if="showContactDialog" />
-            </v-col>
-          </v-row>
-        </v-container>
+        <div class="mx-auto max-w-3xl text-center">
+          <ContactDialog v-if="showContactDialog" />
+        </div>
       </section>
     </div>
   </div>

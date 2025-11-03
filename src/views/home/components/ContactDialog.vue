@@ -1,40 +1,50 @@
 <template>
   <div>
     <!-- 触发弹窗的按钮 -->
-    <v-btn variant="outlined" color="white" size="large" class="contact-button" @click="dialog = true">
+    <button
+      class="contact-button inline-flex items-center justify-center whitespace-nowrap rounded-full border border-border bg-transparent px-6 py-3 text-base font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      @click="dialog = true"
+    >
       <slot name="button-text">联系我</slot>
-    </v-btn>
+    </button>
 
     <!-- 联系弹窗 -->
-    <v-dialog v-model="dialog" max-width="500px" persistent>
-      <v-card class="contact-dialog-card">
-        <v-card-title class="contact-dialog-title">
+    <div v-if="dialog" class="fixed inset-0 z-[2000] flex items-center justify-center">
+      <div class="absolute inset-0 bg-black/50" @click="dialog = false" />
+      <div class="contact-dialog-card relative w-[90%] max-w-[500px] rounded-2xl bg-white/10 p-0 text-white backdrop-blur-lg">
+        <div class="contact-dialog-title">
           <span>联系我</span>
-          <v-btn icon @click="dialog = false" class="close-button">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
+          <button class="close-button inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-white/10" @click="dialog = false">✕</button>
+        </div>
 
-        <v-card-text>
-          <v-form ref="form" v-model="formValid">
-            <v-text-field v-model="contactForm.name" label="姓名" outlined clearable :rules="nameRules"
-              required></v-text-field>
+        <div class="px-6 pb-6">
+          <form @submit.prevent="submitForm">
+            <div class="mb-4">
+              <label class="mb-1 block text-sm opacity-90">姓名</label>
+              <input v-model="contactForm.name" type="text" required
+                class="block w-full rounded-md border border-border bg-transparent px-3 py-2 text-white placeholder:text-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+            </div>
 
-            <v-text-field v-model="contactForm.email" label="邮箱" outlined clearable :rules="emailRules"
-              required></v-text-field>
+            <div class="mb-4">
+              <label class="mb-1 block text-sm opacity-90">邮箱</label>
+              <input v-model="contactForm.email" type="email" required
+                class="block w-full rounded-md border border-border bg-transparent px-3 py-2 text-white placeholder:text-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+            </div>
 
-            <v-textarea v-model="contactForm.message" label="留言" outlined rows="4" :rules="messageRules"
-              required></v-textarea>
-          </v-form>
-        </v-card-text>
+            <div class="mb-6">
+              <label class="mb-1 block text-sm opacity-90">留言</label>
+              <textarea v-model="contactForm.message" rows="4" required
+                class="block w-full rounded-md border border-border bg-transparent px-3 py-2 text-white placeholder:text-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+            </div>
 
-        <v-card-actions class="contact-dialog-actions">
-          <v-btn color="primary" block size="large" :loading="sending" @click="submitForm">
-            发送消息
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+            <button type="submit" :disabled="sending"
+              class="inline-flex w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50">
+              {{ sending ? '发送中...' : '发送消息' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,9 +52,7 @@
 import { ref, reactive } from 'vue'
 
 const dialog = ref(false)
-const formValid = ref(false)
 const sending = ref(false)
-const form = ref(null)
 
 // 表单数据
 const contactForm = reactive({
@@ -53,41 +61,23 @@ const contactForm = reactive({
   message: ''
 })
 
-// 验证规则
-const nameRules = [
-  (v: string) => !!v || '姓名不能为空',
-  (v: string) => (v && v.length <= 20) || '姓名不能超过20个字符'
-]
-
-const emailRules = [
-  (v: string) => !!v || '邮箱不能为空',
-  (v: string) => /.+@.+\..+/.test(v) || '邮箱格式不正确'
-]
-
-const messageRules = [
-  (v: string) => !!v || '留言不能为空',
-  (v: string) => (v && v.length <= 200) || '留言不能超过200个字符'
-]
+function validate() {
+  if (!contactForm.name || contactForm.name.length > 20) return false
+  if (!contactForm.email || !/.+@.+\..+/.test(contactForm.email)) return false
+  if (!contactForm.message || contactForm.message.length > 200) return false
+  return true
+}
 
 // 提交表单
 const submitForm = async () => {
-  // 这里可以添加表单验证逻辑
-  if (!formValid.value) return
-
+  if (!validate()) return
   sending.value = true
-
-  // 模拟发送请求
-  await new Promise(resolve => setTimeout(resolve, 1000))
-
-  // 重置表单
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   contactForm.name = ''
   contactForm.email = ''
   contactForm.message = ''
-
   sending.value = false
   dialog.value = false
-
-  // 显示成功消息
   console.log('消息已发送')
 }
 </script>

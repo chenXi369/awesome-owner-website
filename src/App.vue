@@ -32,11 +32,11 @@ const initAnimations = () => {
 </script>
 
 <template>
-  <v-app style="background: transparent !important">
-    <v-main style="background: transparent !important">
+  <div style="background: transparent !important">
+    <main style="background: transparent !important">
       <router-view />
-    </v-main>
-  </v-app>
+    </main>
+  </div>
 </template>
 
 <style scoped lang="less">
