@@ -44,8 +44,6 @@ export default defineConfig({
         manualChunks: {
           // 将 Vue 相关库打包到一个 chunk
           vue: ['vue', 'vue-router', 'pinia'],
-          // 将 UI 库打包到一个 chunk
-          ui: ['vuetify'],
           // 将 Spline 相关库打包到一个 chunk
           spline: ['@splinetool/runtime'],
           // 将 Material Design Icons 打包到一个 chunk
@@ -62,7 +60,7 @@ export default defineConfig({
   },
   // 预加载优化
   optimizeDeps: {
-    include: ['vue', 'vue-router', 'pinia', 'vuetify', '@vueuse/core', '@splinetool/runtime'],
+    include: ['vue', 'vue-router', 'pinia', '@vueuse/core', '@splinetool/runtime'],
     // 排除某些依赖以避免重复打包
     exclude: ['@mdi/font'],
   },
