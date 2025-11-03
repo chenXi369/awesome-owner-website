@@ -1,12 +1,8 @@
 <template>
-  <div v-if="authStore.isAuthenticated" class="user-nav">
+  <div v-if="false" class="user-nav">
     <v-menu location="bottom end">
       <template v-slot:activator="{ props }">
-        <v-btn
-          variant="text"
-          class="user-btn"
-          v-bind="props"
-        >
+        <v-btn variant="text" class="user-btn" v-bind="props">
           <v-avatar size="32" class="mr-2">
             <v-icon>mdi-account</v-icon>
           </v-avatar>
@@ -31,35 +27,19 @@
       </v-list>
     </v-menu>
   </div>
-  
+
   <div v-else class="auth-buttons">
-    <v-btn
-      variant="text"
-      color="primary"
-      to="/auth/login"
-      class="mr-2"
-    >
-      登录
-    </v-btn>
-    <v-btn
-      variant="outlined"
-      color="primary"
-      to="/auth/register"
-    >
-      注册
-    </v-btn>
+    <v-btn variant="text" color="primary" to="/auth/login" class="mr-2"> 登录 </v-btn>
+    <v-btn variant="outlined" color="primary" to="/auth/register"> 注册 </v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
-const authStore = useAuthStore()
 
 const handleLogout = () => {
-  authStore.logout()
   router.push('/auth/login')
 }
 </script>
@@ -92,12 +72,12 @@ const handleLogout = () => {
   .username {
     display: none;
   }
-  
+
   .auth-buttons {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .auth-buttons .mr-2 {
     margin-right: 0 !important;
   }

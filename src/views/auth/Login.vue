@@ -4,7 +4,7 @@
       <v-card-title class="text-center">
         <h2 class="text-h4 font-weight-bold">登录</h2>
       </v-card-title>
-      
+
       <v-card-text>
         <v-form @submit.prevent="handleLogin">
           <!-- 邮箱/手机号切换 -->
@@ -51,12 +51,7 @@
           ></v-text-field>
 
           <!-- 错误提示 -->
-          <v-alert
-            v-if="authStore.error"
-            type="error"
-            density="compact"
-            class="mt-4"
-          >
+          <v-alert v-if="authStore.error" type="error" density="compact" class="mt-4">
             {{ authStore.error }}
           </v-alert>
 
@@ -78,7 +73,7 @@
           <router-link to="/auth/register" class="text-decoration-none">
             还没有账号？立即注册
           </router-link>
-          <br>
+          <br />
           <router-link to="/auth/reset-password" class="text-decoration-none">
             忘记密码？
           </router-link>
@@ -89,23 +84,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
-import type { LoginRequest } from '@/types/auth'
-
-const router = useRouter()
-const authStore = useAuthStore()
+import { ref } from 'vue'
 
 // 表单数据
 const loginType = ref<'email' | 'phone'>('email')
 const showPassword = ref(false)
-
-const form = reactive<LoginRequest>({
-  email: '',
-  phone: '',
-  password: ''
-})
 
 // 表单验证规则
 const rules = {
@@ -123,42 +106,8 @@ const rules = {
   password: (v: string) => {
     if (!v) return true
     return v.length >= 6 || '密码长度至少6位'
-  }
+  },
 }
-
-// 处理登录
-const handleLogin = async () => {
-  // 清除之前的错误
-  authStore.error = null
-
-  // 构建登录请求
-  const loginRequest: LoginRequest = {
-    password: form.password
-  }
-
-  if (loginType.value === 'email') {
-    loginRequest.email = form.email
-  } else {
-    loginRequest.phone = form.phone
-  }
-
-  const success = await authStore.login(loginRequest)
-  
-  if (success) {
-    // 登录成功，跳转到首页
-    router.push('/')
-  }
-}
-
-// 组件挂载时初始化认证状态
-onMounted(async () => {
-  await authStore.initializeAuth()
-  
-  // 如果已经登录，跳转到首页
-  if (authStore.isAuthenticated) {
-    router.push('/')
-  }
-})
 </script>
 
 <style scoped>

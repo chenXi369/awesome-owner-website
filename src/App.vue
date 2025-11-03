@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-
-const authStore = useAuthStore()
 
 onMounted(async () => {
-  // 初始化认证状态
-  await authStore.initializeAuth()
-  
   // 初始化动画效果
   initAnimations()
 })

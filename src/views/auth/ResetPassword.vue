@@ -4,7 +4,7 @@
       <v-card-title class="text-center">
         <h2 class="text-h4 font-weight-bold">重置密码</h2>
       </v-card-title>
-      
+
       <v-card-text>
         <v-form @submit.prevent="handleResetPassword">
           <!-- 重置方式选择 -->
@@ -86,22 +86,12 @@
           ></v-text-field>
 
           <!-- 错误提示 -->
-          <v-alert
-            v-if="authStore.error"
-            type="error"
-            density="compact"
-            class="mt-4"
-          >
+          <v-alert v-if="authStore.error" type="error" density="compact" class="mt-4">
             {{ authStore.error }}
           </v-alert>
 
           <!-- 成功提示 -->
-          <v-alert
-            v-if="resetSuccess"
-            type="success"
-            density="compact"
-            class="mt-4"
-          >
+          <v-alert v-if="resetSuccess" type="success" density="compact" class="mt-4">
             密码重置成功！请使用新密码登录。
           </v-alert>
 
@@ -121,9 +111,7 @@
 
         <!-- 底部链接 -->
         <div class="text-center mt-4">
-          <router-link to="/auth/login" class="text-decoration-none">
-            返回登录
-          </router-link>
+          <router-link to="/auth/login" class="text-decoration-none"> 返回登录 </router-link>
         </div>
       </v-card-text>
     </v-card>
@@ -131,13 +119,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
-import type { ResetPasswordRequest, VerificationCodeRequest } from '@/types/auth'
-
-const router = useRouter()
-const authStore = useAuthStore()
+import { ref } from 'vue'
 
 // 表单数据
 const resetType = ref<'email' | 'phone'>('email')
@@ -146,113 +128,6 @@ const showConfirmPassword = ref(false)
 const sendingCode = ref(false)
 const countdown = ref(0)
 const resetSuccess = ref(false)
-
-const form = reactive<ResetPasswordRequest & { confirmPassword: string }>({
-  email: '',
-  phone: '',
-  newPassword: '',
-  confirmPassword: '',
-  verificationCode: ''
-})
-
-// 计算属性
-const canSendCode = computed(() => {
-  if (resetType.value === 'email') {
-    return form.email && rules.email(form.email) === true
-  } else {
-    return form.phone && rules.phone(form.phone) === true
-  }
-})
-
-// 表单验证规则
-const rules = {
-  required: (v: string) => !!v || '此项为必填项',
-  email: (v: string) => {
-    if (!v) return true
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return pattern.test(v) || '请输入有效的邮箱地址'
-  },
-  phone: (v: string) => {
-    if (!v) return true
-    const pattern = /^1[3-9]\d{9}$/
-    return pattern.test(v) || '请输入有效的手机号码'
-  },
-  password: (v: string) => {
-    if (!v) return true
-    return v.length >= 6 || '密码长度至少6位'
-  },
-  confirmPassword: (v: string) => {
-    if (!v) return true
-    return v === form.newPassword || '两次输入的密码不一致'
-  }
-}
-
-// 发送验证码
-const sendVerificationCode = async () => {
-  sendingCode.value = true
-  authStore.error = null
-
-  try {
-    const request: VerificationCodeRequest = {
-      type: 'reset'
-    }
-
-    if (resetType.value === 'email') {
-      request.email = form.email
-    } else {
-      request.phone = form.phone
-    }
-
-    const success = await authStore.sendVerificationCode(request)
-    
-    if (success) {
-      // 开始倒计时
-      countdown.value = 60
-      const timer = setInterval(() => {
-        countdown.value--
-        if (countdown.value <= 0) {
-          clearInterval(timer)
-        }
-      }, 1000)
-    }
-  } finally {
-    sendingCode.value = false
-  }
-}
-
-// 处理重置密码
-const handleResetPassword = async () => {
-  // 清除之前的错误
-  authStore.error = null
-
-  // 构建重置密码请求
-  const resetRequest: ResetPasswordRequest = {
-    newPassword: form.newPassword,
-    verificationCode: form.verificationCode
-  }
-
-  if (resetType.value === 'email') {
-    resetRequest.email = form.email
-  } else {
-    resetRequest.phone = form.phone
-  }
-
-  const success = await authStore.resetPassword(resetRequest)
-  
-  if (success) {
-    resetSuccess.value = true
-    
-    // 3秒后跳转到登录页
-    setTimeout(() => {
-      router.push('/auth/login')
-    }, 3000)
-  }
-}
-
-// 组件挂载时初始化认证状态
-onMounted(async () => {
-  await authStore.initializeAuth()
-})
 </script>
 
 <style scoped>
