@@ -54,7 +54,9 @@ export class CloudBaseModelAPI {
   /**
    * 构建排序参数
    */
-  private buildOrderByClause(orderBy?: string | { field: string; order: 'asc' | 'desc' }[]): string {
+  private buildOrderByClause(
+    orderBy?: string | { field: string; order: 'asc' | 'desc' }[],
+  ): string {
     if (!orderBy) {
       return ''
     }
@@ -144,10 +146,7 @@ export class CloudBaseModelAPI {
    * @param modelName 数据模型名称
    * @param id 数据 ID
    */
-  public async findById<T = any>(
-    modelName: string,
-    id: string,
-  ): Promise<CloudBaseResponse<T>> {
+  public async findById<T = any>(modelName: string, id: string): Promise<CloudBaseResponse<T>> {
     return this.api.get<T>(`/model/v1/${modelName}/${id}`)
   }
 
@@ -201,6 +200,7 @@ export class CloudBaseModelAPI {
     }
     return this.api.delete<ModelOperationResult>(`/model/v1/${modelName}`, {
       data: request,
+      headers: { 'Content-Type': 'application/json' },
     })
   }
 
@@ -228,7 +228,7 @@ export class CloudBaseModelAPI {
   public async createBatch<T = any>(
     modelName: string,
     dataList: T[],
-  ): Promise<CloudBaseResponse<BatchOperationResult & { ids?: string[] }>> {
+  ): Promise<CloudBaseResponse<ModelOperationResult & { ids?: string[] }>> {
     return this.create<T>(modelName, dataList)
   }
 
@@ -289,4 +289,3 @@ export class CloudBaseModelAPI {
     return this.api
   }
 }
-
