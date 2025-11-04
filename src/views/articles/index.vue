@@ -50,79 +50,78 @@
       <!-- 文章列表 -->
       <div v-else class="articles-container">
         <!-- 文章卡片 -->
-        <Card
+        <RouterLink
           v-for="article in articles"
           :key="article._id"
-          class="article-card group cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1"
+          :to="`/articles/${article._id}`"
+          class="block"
         >
-          <!-- 文章图片 -->
-          <div class="article-image-wrapper">
-            <div class="article-image-placeholder">
-              <span class="image-icon">📝</span>
-            </div>
-          </div>
-
-          <CardContent class="!p-6">
-            <!-- 文章元信息 -->
-            <div class="article-meta">
-              <span class="text-sm text-muted-foreground">{{
-                transformArticleForDisplay(article).formattedDate
-              }}</span>
-              <span class="text-muted-foreground opacity-50">·</span>
-              <span class="text-sm text-muted-foreground"
-                >{{ transformArticleForDisplay(article).readTime }} 分钟阅读</span
-              >
-            </div>
-
-            <!-- 文章标题 -->
-            <CardTitle class="mb-3 mt-2">
-              <RouterLink
-                :to="`/articles/${article._id}`"
-                class="hover:text-primary transition-colors"
-                >{{ article.title }}</RouterLink
-              >
-            </CardTitle>
-
-            <!-- 文章摘要 -->
-            <CardDescription class="mb-4 line-clamp-3">
-              <div v-html="transformArticleForDisplay(article).excerpt"></div>
-            </CardDescription>
-
-            <!-- 文章标签 -->
-            <div class="mb-4 flex flex-wrap gap-2">
-              <Badge
-                v-for="tag in transformArticleForDisplay(article).tags"
-                :key="tag"
-                variant="secondary"
-                class="text-xs"
-              >
-                {{ tag }}
-              </Badge>
-            </div>
-
-            <!-- 文章底部信息 -->
-            <CardFooter class="flex items-center justify-between border-t pt-4 px-0">
-              <div class="flex items-center gap-3">
-                <Avatar class="h-8 w-8">
-                  <AvatarFallback
-                    class="bg-gradient-to-br from-primary to-accent-foreground text-white"
-                  >
-                    辰
-                  </AvatarFallback>
-                </Avatar>
-                <span class="text-sm font-medium">{{
-                  transformArticleForDisplay(article).author
-                }}</span>
+          <Card
+            class="article-card group cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1"
+          >
+            <!-- 文章图片 -->
+            <div class="article-image-wrapper">
+              <div class="article-image-placeholder">
+                <span class="image-icon">📝</span>
               </div>
-              <RouterLink :to="`/articles/${article._id}`">
-                <Button variant="ghost" size="sm" class="text-primary">
+            </div>
+
+            <CardContent class="!p-6">
+              <!-- 文章元信息 -->
+              <div class="article-meta">
+                <span class="text-sm text-muted-foreground">{{
+                  transformArticleForDisplay(article).formattedDate
+                }}</span>
+                <span class="text-muted-foreground opacity-50">·</span>
+                <span class="text-sm text-muted-foreground"
+                  >{{ transformArticleForDisplay(article).readTime }} 分钟阅读</span
+                >
+              </div>
+
+              <!-- 文章标题 -->
+              <CardTitle class="mb-3 mt-2">
+                <span class="hover:text-primary transition-colors">{{ article.title }}</span>
+              </CardTitle>
+
+              <!-- 文章摘要 -->
+              <CardDescription class="mb-4 line-clamp-3">
+                <div v-html="transformArticleForDisplay(article).excerpt"></div>
+              </CardDescription>
+
+              <!-- 文章标签 -->
+              <div class="mb-4 flex flex-wrap gap-2">
+                <Badge
+                  v-for="tag in transformArticleForDisplay(article).tags"
+                  :key="tag"
+                  variant="secondary"
+                  class="text-xs"
+                >
+                  {{ tag }}
+                </Badge>
+              </div>
+
+              <!-- 文章底部信息 -->
+              <CardFooter class="flex items-center justify-between border-t pt-4 px-0">
+                <div class="flex items-center gap-3">
+                  <Avatar class="h-8 w-8">
+                    <AvatarFallback
+                      class="bg-gradient-to-br from-primary to-accent-foreground text-white"
+                    >
+                      辰
+                    </AvatarFallback>
+                  </Avatar>
+                  <span class="text-sm font-medium">{{
+                    transformArticleForDisplay(article).author
+                  }}</span>
+                </div>
+                <div class="text-primary">
                   阅读更多
                   <span class="ml-1">→</span>
-                </Button>
-              </RouterLink>
-            </CardFooter>
-          </CardContent>
-        </Card>
+                </div>
+              </CardFooter>
+            </CardContent>
+          </Card>
+        </RouterLink>
 
         <!-- 空状态 -->
         <div v-if="articles.length === 0" class="col-span-full text-center py-12">
