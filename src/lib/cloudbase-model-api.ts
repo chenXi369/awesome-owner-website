@@ -10,9 +10,7 @@ import type {
   PaginationResponse,
   CreateDataRequest,
   UpdateDataRequest,
-  DeleteDataRequest,
   ModelOperationResult,
-  BatchOperationResult,
   QueryCondition,
 } from '../types/cloudbase'
 
@@ -193,15 +191,7 @@ export class CloudBaseModelAPI {
     if (typeof idOrWhere === 'string') {
       return this.api.delete<ModelOperationResult>(`/model/v1/${modelName}/${idOrWhere}`)
     }
-
-    // 否则为批量删除
-    const request: DeleteDataRequest = {
-      where: idOrWhere ? this.buildWhereClause(idOrWhere) : undefined,
-    }
-    return this.api.delete<ModelOperationResult>(`/model/v1/${modelName}`, {
-      data: request,
-      headers: { 'Content-Type': 'application/json' },
-    })
+    return this.api.delete<ModelOperationResult>(`/model/v1/${modelName}/${idOrWhere}`)
   }
 
   /**
@@ -244,18 +234,6 @@ export class CloudBaseModelAPI {
     where: QueryCondition[] | Record<string, any>,
   ): Promise<CloudBaseResponse<ModelOperationResult>> {
     return this.update<T>(modelName, data, undefined, where)
-  }
-
-  /**
-   * 批量删除数据
-   * @param modelName 数据模型名称
-   * @param where 删除条件
-   */
-  public async deleteBatch(
-    modelName: string,
-    where: QueryCondition[] | Record<string, any>,
-  ): Promise<CloudBaseResponse<ModelOperationResult>> {
-    return this.delete(modelName, where)
   }
 
   /**

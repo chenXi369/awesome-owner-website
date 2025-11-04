@@ -55,19 +55,19 @@ export class CloudBaseAPI {
         const token = await this.getAccessToken()
         if (token) {
           config.headers = config.headers || {}
-          config.headers.Authorization = `Bearer ${token}`
+          ;(config.headers as Record<string, string>)['Authorization'] = `Bearer ${token}`
         }
 
         // 添加环境 ID
         if (this.config.envId) {
           config.headers = config.headers || {}
-          config.headers['X-CloudBase-EnvId'] = this.config.envId
+          ;(config.headers as Record<string, string>)['X-CloudBase-EnvId'] = this.config.envId
         }
 
         // 添加 API Key（如果使用 API Key 认证）
         if (this.config.apiKey && !token) {
           config.headers = config.headers || {}
-          config.headers['X-CloudBase-API-Key'] = this.config.apiKey
+          ;(config.headers as Record<string, string>)['X-CloudBase-API-Key'] = this.config.apiKey
         }
 
         return config
