@@ -11,6 +11,11 @@ const routes = [
     name: 'Articles',
     component: () => import('@/views/articles/index.vue'),
   },
+  {
+    path: '/articles/:id',
+    name: 'ArticleDetail',
+    component: () => import('@/views/articles/Detail.vue'),
+  },
   // {
   //   path: '/auth',
   //   redirect: '/auth/login',

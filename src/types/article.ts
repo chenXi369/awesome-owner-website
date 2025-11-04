@@ -14,7 +14,8 @@ export interface ArticleListResponse {
 
 // 文章接口
 export interface Article {
-  id: string
+  updatedAt: string | undefined
+  _id: string
   title: string
   content?: string
   excerpt?: string

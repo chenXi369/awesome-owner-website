@@ -21,16 +21,16 @@ export class ArticleService {
    */
   async getArticleList(params: ArticleListRequest = {}): Promise<ArticleListResponse> {
     const authStore = useAuthStore()
-    
+
     // 确保有有效的 token
     await authStore.autoRefreshToken()
-    
+
     if (!authStore.token?.accessToken) {
       throw new Error('未找到有效的访问令牌，请先登录')
     }
 
     const url = `${this.baseURL}/${this.modelName}/list`
-    
+
     try {
       const response = await axios.get(url, {
         params: {
@@ -42,7 +42,7 @@ export class ArticleService {
           ...(params.status && { status: params.status }),
         },
         headers: {
-          'Authorization': `Bearer ${authStore.token.accessToken}`,
+          Authorization: `Bearer ${authStore.token.accessToken}`,
           'Content-Type': 'application/json',
         },
         timeout: 10000,
@@ -51,10 +51,12 @@ export class ArticleService {
       return response.data
     } catch (error: any) {
       console.error('获取文章列表失败:', error)
-      
+
       if (error.response) {
         // 服务器返回错误状态码
-        throw new Error(`HTTP ${error.response.status}: ${error.response.data?.message || error.response.statusText}`)
+        throw new Error(
+          `HTTP ${error.response.status}: ${error.response.data?.message || error.response.statusText}`,
+        )
       } else if (error.request) {
         // 请求发送失败
         throw new Error('网络错误，请检查网络连接')
@@ -70,32 +72,33 @@ export class ArticleService {
    */
   async getArticleById(id: string): Promise<Article> {
     const authStore = useAuthStore()
-    
+
     // 确保有有效的 token
     await authStore.autoRefreshToken()
-    
+
     if (!authStore.token?.accessToken) {
       throw new Error('未找到有效的访问令牌，请先登录')
     }
 
-    const url = `${this.baseURL}/${this.modelName}/detail`
-    
+    const url = `${this.baseURL}/${this.modelName}/${id}/get`
+
     try {
       const response = await axios.get(url, {
-        params: { id },
         headers: {
-          'Authorization': `Bearer ${authStore.token.accessToken}`,
+          Authorization: `Bearer ${authStore.token.accessToken}`,
           'Content-Type': 'application/json',
         },
         timeout: 10000,
       })
 
-      return response.data.data
+      return response.data.data.record
     } catch (error: any) {
       console.error('获取文章详情失败:', error)
-      
+
       if (error.response) {
-        throw new Error(`HTTP ${error.response.status}: ${error.response.data?.message || error.response.statusText}`)
+        throw new Error(
+          `HTTP ${error.response.status}: ${error.response.data?.message || error.response.statusText}`,
+        )
       } else if (error.request) {
         throw new Error('网络错误，请检查网络连接')
       } else {
@@ -109,10 +112,12 @@ export class ArticleService {
    */
   transformArticleData(article: Article): any {
     return {
-      id: article.id,
+      id: article._id,
       title: article.title,
       excerpt: article.excerpt || article.content?.substring(0, 150) + '...' || '暂无摘要',
-      date: article.publishTime ? new Date(article.publishTime).toISOString().split('T')[0] : '未知日期',
+      date: article.publishTime
+        ? new Date(article.publishTime).toISOString().split('T')[0]
+        : '未知日期',
       readTime: this.calculateReadTime(article.content || ''),
       tags: article.tags || [],
       coverImage: article.coverImage,

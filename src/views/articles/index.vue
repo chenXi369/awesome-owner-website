@@ -52,7 +52,7 @@
         <!-- 文章卡片 -->
         <Card
           v-for="article in articles"
-          :key="article.id"
+          :key="article._id"
           class="article-card group cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1"
         >
           <!-- 文章图片 -->
@@ -66,7 +66,7 @@
             <!-- 文章元信息 -->
             <div class="article-meta">
               <span class="text-sm text-muted-foreground">{{
-                transformArticleForDisplay(article).date
+                transformArticleForDisplay(article).formattedDate
               }}</span>
               <span class="text-muted-foreground opacity-50">·</span>
               <span class="text-sm text-muted-foreground"
@@ -76,12 +76,16 @@
 
             <!-- 文章标题 -->
             <CardTitle class="mb-3 mt-2">
-              <a href="#" class="hover:text-primary transition-colors">{{ article.title }}</a>
+              <RouterLink
+                :to="`/articles/${article._id}`"
+                class="hover:text-primary transition-colors"
+                >{{ article.title }}</RouterLink
+              >
             </CardTitle>
 
             <!-- 文章摘要 -->
             <CardDescription class="mb-4 line-clamp-3">
-              {{ transformArticleForDisplay(article).excerpt }}
+              <div v-html="transformArticleForDisplay(article).excerpt"></div>
             </CardDescription>
 
             <!-- 文章标签 -->
@@ -110,10 +114,12 @@
                   transformArticleForDisplay(article).author
                 }}</span>
               </div>
-              <Button variant="ghost" size="sm" class="text-primary">
-                阅读更多
-                <span class="ml-1">→</span>
-              </Button>
+              <RouterLink :to="`/articles/${article._id}`">
+                <Button variant="ghost" size="sm" class="text-primary">
+                  阅读更多
+                  <span class="ml-1">→</span>
+                </Button>
+              </RouterLink>
             </CardFooter>
           </CardContent>
         </Card>
@@ -224,9 +230,6 @@ const loadArticles = async () => {
   } catch (err: any) {
     console.error('加载文章失败:', err)
     error.value = err.message || '加载文章失败，请稍后重试'
-
-    // 如果加载失败，使用默认数据作为降级方案
-    articles.value = getFallbackArticles()
   } finally {
     isLoading.value = false
   }
@@ -240,48 +243,40 @@ const handlePageChange = (newPageNumber: number) => {
   loadArticles()
 }
 
-// 降级方案：获取默认文章数据
-const getFallbackArticles = (): Article[] => {
-  return [
-    {
-      id: '1',
-      title: 'Vue 3 Composition API 最佳实践',
-      excerpt:
-        '深入探讨 Vue 3 Composition API 的使用技巧，帮助你写出更优雅、更易维护的代码。从基础到进阶，全面覆盖常见场景。',
-      publishTime: '2024-01-15T00:00:00Z',
-      tags: ['Vue', '前端', 'JavaScript'],
-      author: '辰辰',
-    },
-    {
-      id: '2',
-      title: 'TypeScript 类型系统深度解析',
-      excerpt:
-        'TypeScript 的强大类型系统为 JavaScript 开发带来了类型安全。本文深入解析高级类型、泛型、条件类型等核心概念。',
-      publishTime: '2024-01-10T00:00:00Z',
-      tags: ['TypeScript', '编程', '类型系统'],
-      author: '辰辰',
-    },
-    {
-      id: '3',
-      title: '现代 CSS 布局技巧与实战',
-      excerpt:
-        'Grid 和 Flexbox 已经改变了我们构建布局的方式。这篇文章将带你掌握现代 CSS 布局的核心技巧和最佳实践。',
-      publishTime: '2024-01-05T00:00:00Z',
-      tags: ['CSS', '前端', '布局'],
-      author: '辰辰',
-    },
-  ]
-}
-
 // 转换文章数据为前端显示格式
 const transformArticleForDisplay = (article: Article) => {
+  // 格式化日期
+  const formatDate = (timestamp?: number | string) => {
+    if (!timestamp) return '未知日期'
+
+    // 处理时间戳：如果是数字且小于1e12，认为是秒级时间戳，否则认为是毫秒级
+    let date: Date
+    if (typeof timestamp === 'number') {
+      date = timestamp < 1e12 ? new Date(timestamp * 1000) : new Date(timestamp)
+    } else {
+      date = new Date(timestamp)
+    }
+
+    // 检查日期是否有效
+    if (isNaN(date.getTime())) return '无效日期'
+
+    // 格式化为年月日 时:分:秒
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0')
+
+    return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`
+  }
+
   return {
-    id: article.id,
+    id: article._id,
     title: article.title,
-    excerpt: article.excerpt || article.content?.substring(0, 150) + '...' || '暂无摘要',
-    date: article.publishTime
-      ? new Date(article.publishTime).toISOString().split('T')[0]
-      : '未知日期',
+    excerpt: article.content || '暂无摘要',
+    date: article.updatedAt || article.publishTime,
+    formattedDate: formatDate(article.updatedAt || article.publishTime),
     readTime: Math.max(1, Math.ceil((article.content?.length || 0) / 200)),
     tags: article.tags || [],
     author: article.author || '辰辰',
