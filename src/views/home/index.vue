@@ -3,8 +3,7 @@
     <div
       class="absolute flex w-full flex-col items-center justify-center gap-2 p-8 text-center font-heading text-white"
     >
-      <span class="text-4xl font-semibold"> 辰辰 </span>
-      <span class="font-sans font-light">Build spline animations with style.</span>
+      <span class="text-4xl font-semibold"> 辰のblog </span>
     </div>
     <div class="flex">
       <SplineView :scene="sceneUrl" class="mt-24 size-full" />

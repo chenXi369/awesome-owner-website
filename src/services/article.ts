@@ -121,7 +121,7 @@ export class ArticleService {
       readTime: this.calculateReadTime(article.content || ''),
       tags: article.tags || [],
       coverImage: article.coverImage,
-      author: article.author || '辰辰',
+      author: article.author || '辰のblog',
     }
   }
 

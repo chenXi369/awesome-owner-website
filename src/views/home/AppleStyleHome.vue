@@ -11,7 +11,7 @@
       <nav class="user-navbar">
         <div class="nav-content">
           <div class="nav-brand">
-            <h2 class="brand-title">辰辰</h2>
+            <h2 class="brand-title">辰のblog</h2>
           </div>
           <div class="nav-actions">
             <UserNav />
@@ -22,8 +22,7 @@
       <!-- 主标题区域 -->
       <section class="hero-section animate-on-scroll">
         <div class="hero-content">
-          <h1 class="main-title">辰辰</h1>
-          <p class="subtitle">Build spline animations with style.</p>
+          <h1 class="main-title">辰のblog</h1>
           <div class="cta-buttons">
             <button
               class="cta-button inline-flex items-center justify-center whitespace-nowrap rounded-full border border-border bg-transparent px-6 py-3 text-base font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

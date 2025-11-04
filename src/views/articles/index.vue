@@ -4,7 +4,7 @@
     <nav class="articles-navbar">
       <div class="nav-container">
         <RouterLink to="/" class="brand-link">
-          <h2 class="brand-title">辰辰</h2>
+          <h2 class="brand-title">辰のblog</h2>
         </RouterLink>
         <div class="nav-actions">
           <RouterLink
@@ -279,7 +279,7 @@ const transformArticleForDisplay = (article: Article) => {
     formattedDate: formatDate(article.updatedAt || article.publishTime),
     readTime: Math.max(1, Math.ceil((article.content?.length || 0) / 200)),
     tags: article.tags || [],
-    author: article.author || '辰辰',
+    author: article.author || '辰のblog',
   }
 }
 

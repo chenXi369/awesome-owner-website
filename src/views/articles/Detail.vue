@@ -4,7 +4,7 @@
     <nav class="articles-navbar">
       <div class="nav-container">
         <RouterLink to="/" class="brand-link">
-          <h2 class="brand-title">辰辰</h2>
+          <h2 class="brand-title">辰のblog</h2>
         </RouterLink>
         <div class="nav-actions">
           <RouterLink
@@ -85,7 +85,7 @@
                     辰
                   </AvatarFallback>
                 </Avatar>
-                <span>{{ article.author || '辰辰' }}</span>
+                <span>{{ article.author || '辰のblog' }}</span>
               </div>
               <span class="opacity-50">•</span>
               <span>{{ formattedDate }}</span>
