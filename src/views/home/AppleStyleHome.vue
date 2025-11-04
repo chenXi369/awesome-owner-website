@@ -31,6 +31,12 @@
             >
               探索更多
             </button>
+            <RouterLink
+              to="/articles"
+              class="cta-button inline-flex items-center justify-center whitespace-nowrap rounded-full border border-border bg-transparent px-6 py-3 text-base font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              查看文章
+            </RouterLink>
           </div>
         </div>
       </section>
@@ -107,6 +113,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent } from 'vue'
+import { RouterLink } from 'vue-router'
 import UserNav from '@/components/UserNav.vue'
 
 // 动态导入组件

@@ -3,8 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: () => import('@/views/home/AppleStyleHome.vue'),
+  },
+  {
+    path: '/articles',
+    name: 'Articles',
+    component: () => import('@/views/articles/index.vue'),
   },
   // {
   //   path: '/auth',
