@@ -50,15 +50,12 @@
       <!-- 文章列表 -->
       <div v-else class="articles-container">
         <!-- 文章卡片 -->
-        <RouterLink
+        <Card
           v-for="article in articles"
           :key="article._id"
-          :to="`/articles/${article._id}`"
-          class="block"
+          class="article-card group cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1"
         >
-          <Card
-            class="article-card group cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1"
-          >
+          <RouterLink :to="`/articles/${article._id}`">
             <!-- 文章图片 -->
             <div class="article-image-wrapper">
               <div class="article-image-placeholder">
@@ -79,9 +76,7 @@
               </div>
 
               <!-- 文章标题 -->
-              <CardTitle class="mb-3 mt-2">
-                <span class="hover:text-primary transition-colors">{{ article.title }}</span>
-              </CardTitle>
+              <CardTitle class="mb-3 mt-2">{{ article.title }}</CardTitle>
 
               <!-- 文章摘要 -->
               <CardDescription class="mb-4 line-clamp-3">
@@ -114,14 +109,16 @@
                     transformArticleForDisplay(article).author
                   }}</span>
                 </div>
-                <div class="text-primary">
-                  阅读更多
-                  <span class="ml-1">→</span>
-                </div>
+                <RouterLink :to="`/articles/${article._id}`">
+                  <Button variant="ghost" size="sm" class="text-primary">
+                    阅读更多
+                    <span class="ml-1">→</span>
+                  </Button>
+                </RouterLink>
               </CardFooter>
             </CardContent>
-          </Card>
-        </RouterLink>
+          </RouterLink>
+        </Card>
 
         <!-- 空状态 -->
         <div v-if="articles.length === 0" class="col-span-full text-center py-12">

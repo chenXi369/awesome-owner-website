@@ -3,10 +3,19 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
+import { codeInspectorPlugin } from 'code-inspector-plugin'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueDevTools(), tailwindcss()],
+  plugins: [
+    vue(),
+    vueDevTools(),
+    tailwindcss(),
+    codeInspectorPlugin({
+      bundler: 'vite',
+      showSwitch: true, //开启后会出来一个按钮，点击按钮之后点击想看的元素就能定位了
+    }),
+  ],
   base: '/website-owner/',
   css: {
     preprocessorOptions: {
