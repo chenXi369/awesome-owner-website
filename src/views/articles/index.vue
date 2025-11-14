@@ -220,7 +220,9 @@ const loadArticles = async () => {
       status: 'published',
     })
 
-    articles.value = response.data.records
+    articles.value = response.data.records.filter((e) => {
+      return e.isLaunch
+    })
     pagination.value.total = response.data.total
     pagination.value.totalPages = Math.ceil(response.data.total / pagination.value.pageSize)
   } catch (err: any) {

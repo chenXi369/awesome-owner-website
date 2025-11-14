@@ -17,6 +17,7 @@ export interface Article {
   updatedAt: string | undefined
   _id: string
   title: string
+  isLaunch: boolean
   content?: string
   excerpt?: string
   coverImage?: string
